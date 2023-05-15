@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавить спортсмена</title>
+</head>
+<body>
+<h1>Добавить спортсмена</h1>
+<form action="#" th:action="@{/addAthlete}" th:object="${athlete}" method="post">
+    <label for="name">Имя:</label>
+    <input type="text" id="name" th:field="*{name}"/>
+    <br/>
+    <label for="surname">Фамилия:</label>
+    <input type="text" id="surname" th:field="*{surname}"/>
+    <br/>
+    <label for="age">Возраст:</label>
+    <input type="number" id="age" th:field="*{age}"/>
+    <br/>
+    <label for="sportType">Вид спорта:</label>
+    <input type="text" id="sportType" th:field="*{sportType}"/>
+    <br/>
+    <button type="submit">Сохранить</button>
+</form>
+<a href="/">Отмена</a>
+</body>
+</html>
