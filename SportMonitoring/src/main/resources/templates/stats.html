@@ -3,18 +3,49 @@
 <head>
     <title>Мои показатели</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="container">
     <h2>Мои показатели</h2>
     <ul>
         <li th:each="stat : ${stats}">
-            <a th:href="@{/stats/detail(stat.id)}" th:text="${stat.name}"></a>
+            <span th:text="${stat.name}"></span>
+            <span th:text="${#dates.format(stat.assignedDate, 'dd-MM-yyyy')}"></span>:
+            <span th:text="${stat.value}"></span>
         </li>
     </ul>
+
+    <canvas id="myChart"></canvas>
     <a th:href="@{/profile}">Мой профиль</a>
     <a th:href="@{/logout}">Выйти</a>
 </div>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [${statDates}],
+
+            datasets: [{
+                label: 'Мои показатели',
+                data: [${statValues}],
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'linear'
+                }]
+            }
+        }
+    });
+</script>
+
 <footer>
     <div class="footer-content">
         <p>© 2023 Все права защищены.</p>

@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class StatController {
@@ -24,19 +26,29 @@ public class StatController {
         if (user == null) {
             return "redirect:/login";
         }
+
         List<Stat> stats = statRepository.findByUser(user);
         model.addAttribute("stats", stats);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        List<String> statDates = stats.stream()
+                .map(stat -> formatter.format(stat.getAssignedDate()))
+                .collect(Collectors.toList());
+
+        List<Double> statValues = stats.stream()
+                .map(Stat::getValue)
+                .collect(Collectors.toList());
+
+        List<String> statNames = stats.stream()
+                .map(Stat::getName)
+                .collect(Collectors.toList());
+
+        model.addAttribute("statNames", statNames);
+        model.addAttribute("statDates", statDates);
+        model.addAttribute("statValues", statValues);
+        model.addAttribute("showGraph", !stats.isEmpty());
+
         return "stats";
     }
-
-    @GetMapping("/stats/detail/{id}")
-    public String showStatDetail(@PathVariable Long id, Model model, HttpSession session) {
-        Stat stat = statRepository.findById(id).orElse(null);
-        if (stat == null) {
-            return "redirect:/error";
-        }
-        model.addAttribute("stat", stat);
-        return "detail";
-    }
-
 }
