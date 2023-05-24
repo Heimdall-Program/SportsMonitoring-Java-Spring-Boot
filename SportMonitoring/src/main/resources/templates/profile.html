@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Мой профиль</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Мой профиль</h2>
+    <div class="profile-picture">
+        <img th:src="${user.pictureUrl}" alt="Картинка"/>
+    </div>
+    <form action="#" th:action="@{/updateProfile}" method="post" enctype="multipart/form-data">
+        <label for="picture">Фото:</label>
+        <input type="file" id="picture" name="picture"/><br>
+        <label for="name">Имя:</label><br>
+        <input type="text" id="name" name="name" th:value="${user.name}" required><br>
+        <label for="surname">Фамилия:</label><br>
+        <input type="text" id="surname" name="surname" th:value="${user.surname}" required><br>
+        <label for="age">Возраст:</label><br>
+        <input type="number" id="age" name="age" min="15" max="70" th:value="${user.age}" required><br>
+        <label for="gender">Пол:</label><br>
+        <select id="gender" name="gender" required>
+            <option th:selected="${user.gender == 'Мужской'}" value="Мужской">Мужской</option>
+            <option th:selected="${user.gender == 'Женский'}" value="Женский">Женский</option>
+        </select><br>
+        <button type="submit">Обновить</button>
+    </form>
+    <a class="button" th:href="@{/stats}">Мои показатели</a>
+    <a class="button" th:href="@{/logout}">Выйти</a>
+</div>
+<footer>
+    <div class="footer-content">
+        <p>© 2023 Все права защищены.</p>
+    </div>
+</footer>
+</body>
+</html>

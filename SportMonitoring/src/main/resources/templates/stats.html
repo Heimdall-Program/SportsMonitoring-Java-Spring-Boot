@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Мои показатели</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Мои показатели</h2>
+    <ul>
+        <li th:each="stat : ${stats}">
+            <a th:href="@{/stats/detail(stat.id)}" th:text="${stat.name}"></a>
+        </li>
+    </ul>
+    <a th:href="@{/profile}">Мой профиль</a>
+    <a th:href="@{/logout}">Выйти</a>
+</div>
+</body>
+</html>

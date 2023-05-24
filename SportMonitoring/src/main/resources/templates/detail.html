@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Подробнее о показателе</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2 th:text="${stat.name}"></h2>
+    <p th:text="${stat.description}"></p>
+    <a th:href="@{/stats}">Мои показатели</a>
+    <a th:href="@{/logout}">Выйти</a>
+</div>
+</body>
+</html>
