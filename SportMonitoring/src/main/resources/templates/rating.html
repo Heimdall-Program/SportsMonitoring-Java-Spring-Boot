@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Рейтинг</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Рейтинг спортсменов по выбранному параметру</h2>
+
+    <form action="/admin/rating" method="get">
+        <label for="typeId">Выберите параметр:</label><br>
+        <select id="typeId" name="typeId">
+            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
+        </select>
+        <button type="submit">Показать рейтинг</button>
+    </form>
+
+    <div th:if="${stats == null || stats.isEmpty()}" class="alert alert-info">
+        <strong>Нет данных для отображения</strong>
+    </div>
+
+    <div th:if="${stats != null && !stats.isEmpty()}">
+        <h3>Результат:</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Имя пользователя</th>
+                <th>Значение</th>
+                <th>Разница со следующим</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="stat, iterStat : ${stats}">
+                <td th:text="${stat.user.name} + ' ' + ${stat.user.surname}"></td>
+                <td th:text="${stat.value}"></td>
+                <td th:if="${iterStat.hasNext}" th:text="${stat.value - ${stats[iterStat.index + 1].value}}"></td>
+                <td th:unless="${iterStat.hasNext}">-</td>
+            </tr>
+            </tbody>
+        </table>
+        <form action="/admin/rating/save" method="post">
+            <input type="hidden" name="typeId" th:value="${typeId}">
+            <button type="submit">Сохранить текущий рейтинг</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

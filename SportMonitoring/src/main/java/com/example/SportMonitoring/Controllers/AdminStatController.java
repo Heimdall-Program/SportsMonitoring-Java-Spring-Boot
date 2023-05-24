@@ -1,8 +1,10 @@
 package com.example.SportMonitoring.Controllers;
 
+import com.example.SportMonitoring.Models.Rating;
 import com.example.SportMonitoring.Models.Stat;
 import com.example.SportMonitoring.Models.StatType;
 import com.example.SportMonitoring.Models.User;
+import com.example.SportMonitoring.Repositories.RatingRepository;
 import com.example.SportMonitoring.Repositories.StatRepository;
 import com.example.SportMonitoring.Repositories.StatTypeRepository;
 import com.example.SportMonitoring.Repositories.UserRepository;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,9 @@ public class AdminStatController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    RatingRepository ratingRepository;
 
     @GetMapping("/admin_stats")
     public String showStats(Model model) {
@@ -94,12 +99,28 @@ public class AdminStatController {
             stat.setDescription(description);
             stat.setValue(value);
             stat.setType(statTypeRepository.findById(typeId).orElse(null));
-            User user = userRepository.findById(userId).orElse(null);
-            if (user != null) {
-                stat.setUser(user);
-            }
+            userRepository.findById(userId).ifPresent(stat::setUser);
             statRepository.save(stat);
         }
         return "redirect:/admin_stats";
+    }
+
+    @GetMapping("/rating")
+    public String rating(@RequestParam(name = "typeId", required = false) Long typeId, Model model) {
+        List<StatType> types = statTypeRepository.findAll();
+        model.addAttribute("types", types);
+
+        if (typeId != null) {
+            List<Stat> stats = statRepository.findByTypeIdOrderByValueDesc(typeId);
+            model.addAttribute("stats", stats);
+        }
+
+        return "rating";
+    }
+
+    @PostMapping("/rating/save")
+    public String saveRating(@RequestBody List<Rating> ratings) {
+        ratingRepository.saveAll(ratings);
+        return "redirect:/admin/rating";
     }
 }

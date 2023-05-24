@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface StatRepository extends JpaRepository<Stat, Long> {
     List<Stat> findByUser(User user);
+
+    List<Stat> findByTypeIdOrderByValueDesc(Long typeId);
 }
