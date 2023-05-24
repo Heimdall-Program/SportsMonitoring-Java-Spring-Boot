@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Профиль спортсмена</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Профиль спортсмена</h2>
+    <div class="profile-picture">
+        <img id="picture" alt="Картинка"/>
+    </div>
+
+    <form id="athlete-selection-form">
+        <label for="athlete">Выберите спортсмена:</label><br>
+        <select id="athlete" name="athlete" onchange="getAthleteInfo(this.value)">
+            <option value="">Выберите спортсмена...</option>
+            <option th:each="user : ${users}" th:value="${user.id}"
+                    th:text="${user.name + ' ' + user.surname}"></option>
+        </select>
+    </form>
+
+    <div class="profile-info">
+        <p id="name"></p>
+        <p id="surname"></p>
+        <p id="age"></p>
+        <p id="gender"></p>
+    </div>
+
+    <hr>
+    <a th:href="@{/users}">Управление пользователями</a>
+    <a th:href="@{/view-profile}">Просмотр профиля спортсмена</a>
+    <a th:href="@{/rating}">Рейтинг спортсменов</a>
+    <a th:href="@{/analysis}">Анализ и прогнозирование</a>
+    <a th:href="@{/logout}">Выйти</a>
+</div>
+
+<script>
+    async function getAthleteInfo(id) {
+        if (id === "") {
+            document.querySelector('.profile-info').style.display = 'none';
+        } else {
+            const response = await fetch('/api/user?id=' + id);
+            const user = await response.json();
+
+            document.getElementById('picture').src = user.pictureUrl;
+            document.getElementById('name').textContent = user.name;
+            document.getElementById('surname').textContent = user.surname;
+            document.getElementById('age').textContent = user.age;
+            document.getElementById('gender').textContent = user.gender;
+
+            document.querySelector('.profile-info').style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

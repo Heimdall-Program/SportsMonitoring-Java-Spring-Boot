@@ -16,6 +16,11 @@ public class AuthorisationController {
     @Autowired
     UserRepository userRepository;
 
+    @GetMapping("/")
+    public String defaultPageRedirect() {
+        return "redirect:/login";
+    }
+
     @GetMapping("/register")
     public String registerForm(Model model) {
         return "registration";

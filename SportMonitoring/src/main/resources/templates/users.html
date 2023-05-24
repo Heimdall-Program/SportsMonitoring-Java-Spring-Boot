@@ -37,10 +37,11 @@
     <form th:action="@{/users/add}" method="post">
         <button type="submit">Добавить нового пользователя</button>
     </form>
-    <a th:href="@{/admin_stats}">Управление показателями</a>
-    <a th:href="@{/admin/profile}">Просмотр профиля спортсмена</a>
-    <a th:href="@{/admin/rating}">Рейтинг спортсменов</a>
-    <a th:href="@{/admin/analysis}">Анализ и прогнозирование</a>
+    <hr>
+    <a th:href="@{/users}">Управление пользователями</a>
+    <a th:href="@{/view-profile}">Просмотр профиля спортсмена</a>
+    <a th:href="@{/rating}">Рейтинг спортсменов</a>
+    <a th:href="@{/analysis}">Анализ и прогнозирование</a>
     <a th:href="@{/logout}">Выйти</a>
 </div>
 <footer>
