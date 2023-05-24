@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Управление БД пользователей</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Управление БД пользователей</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Логин</th>
+            <th>Возраст</th>
+            <th>Пол</th>
+            <th>Роль</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.surname}"></td>
+            <td th:text="${user.login}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.gender}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <a th:href="@{/admin/users/edit(user.id)}">Изменить</a>
+                <a th:href="@{/admin/users/delete(user.id)}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/admin/users/add}" method="post">
+        <button type="submit">Добавить нового пользователя</button>
+    </form>
+    <a th:href="@{/admin/stats}">Управление показателями</a>
+    <a th:href="@{/admin/profile}">Просмотр профиля спортсмена</a>
+    <a th:href="@{/admin/rating}">Рейтинг спортсменов</a>
+    <a th:href="@{/admin/analysis}">Анализ и прогнозирование</a>
+    <a th:href="@{/logout}">Выйти</a>
+</div>
+<footer>
+    <div class="footer-content">
+        <p>© 2023 Все права защищены.</p>
+    </div>
+</footer>
+</body>
+</html>

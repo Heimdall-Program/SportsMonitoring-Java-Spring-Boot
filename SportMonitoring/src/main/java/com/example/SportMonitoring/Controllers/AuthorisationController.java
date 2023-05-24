@@ -69,7 +69,7 @@ public class AuthorisationController {
 
         String role = user.getRole();
         if (role.equals("admin")) {
-            return "redirect:/profile";
+            return "redirect:/users";
         } else if (role.equals("user")) {
             return "redirect:/profile";
         } else {
