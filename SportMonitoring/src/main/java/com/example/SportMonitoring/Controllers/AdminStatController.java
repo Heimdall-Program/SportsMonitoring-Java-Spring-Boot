@@ -1,6 +1,7 @@
 package com.example.SportMonitoring.Controllers;
 
 import com.example.SportMonitoring.Models.Stat;
+import com.example.SportMonitoring.Models.StatType;
 import com.example.SportMonitoring.Models.User;
 import com.example.SportMonitoring.Repositories.StatRepository;
 import com.example.SportMonitoring.Repositories.StatTypeRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,12 @@ public class AdminStatController {
 
     @GetMapping("/admin_stats")
     public String showStats(Model model) {
+
+        model.addAttribute("stat", new Stat());
+        model.addAttribute("types", statTypeRepository.findAll());
+        model.addAttribute("users", userRepository.findAll().stream()
+                .filter(user -> user.getRole().equalsIgnoreCase("user"))
+                .collect(Collectors.toList()));
         model.addAttribute("stats", statRepository.findAll());
         return "admin_stats";
     }
@@ -49,15 +57,16 @@ public class AdminStatController {
     }
 
 
-    @PostMapping("/admin_stats/add")
-    public String addStat(@RequestParam String name, @RequestParam String description, @RequestParam Double value, @RequestParam Long typeId, @RequestParam Long userId) {
-        Stat stat = new Stat(name, description, value);
-        stat.setType(statTypeRepository.findById(typeId).orElse(null));
-        User user = userRepository.findById(userId).orElse(null);
-        if (user != null) {
-            stat.setUser(user);
-        }
+    @PostMapping("/admin_stats/addStat")
+    public String addStat(@ModelAttribute Stat stat, @RequestParam Long userId, @RequestParam Long typeId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        StatType type = statTypeRepository.findById(typeId).orElseThrow(() -> new RuntimeException("StatType not found"));
+
+        stat.setUser(user);
+        stat.setType(type);
+
         statRepository.save(stat);
+
         return "redirect:/admin_stats";
     }
 

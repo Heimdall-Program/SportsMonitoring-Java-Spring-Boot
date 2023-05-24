@@ -2,6 +2,8 @@ package com.example.SportMonitoring.Controllers;
 
 import com.example.SportMonitoring.Models.Stat;
 import com.example.SportMonitoring.Models.User;
+import com.example.SportMonitoring.Repositories.StatRepository;
+import com.example.SportMonitoring.Repositories.StatTypeRepository;
 import com.example.SportMonitoring.Repositories.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller

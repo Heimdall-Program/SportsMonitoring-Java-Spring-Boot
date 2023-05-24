@@ -9,7 +9,6 @@ public class StatType {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", nullable = false)
     private String name;
 
     public Long getId() {

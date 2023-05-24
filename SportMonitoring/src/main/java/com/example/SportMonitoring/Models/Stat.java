@@ -2,6 +2,8 @@ package com.example.SportMonitoring.Models;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "stats")
 public class Stat {
@@ -25,6 +27,14 @@ public class Stat {
     @JoinColumn(name = "type_id", nullable = false)
     private StatType type;
 
+    @Column(name = "assigned_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date assignedDate;
+
+    @PrePersist
+    public void prePersist() {
+        assignedDate = new Date();
+    }
 
     public StatType getType() {
         return type;
@@ -74,7 +84,6 @@ public class Stat {
         this.value = value;
     }
 
-    // constructor
     public Stat() {
     }
 
@@ -82,5 +91,14 @@ public class Stat {
         this.name = name;
         this.description = description;
         this.value = value;
+    }
+
+
+    public Date getAssignedDate() {
+        return assignedDate;
+    }
+
+    public void setAssignedDate(Date assignedDate) {
+        this.assignedDate = assignedDate;
     }
 }
