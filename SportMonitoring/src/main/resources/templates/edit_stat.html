@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Изменение показателя</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Изменение показателя</h2>
+    <form th:action="@{'/admin/stats/edit/' + ${stat.id}}" method="post">
+        <label for="name">Название:</label><br>
+        <input type="text" id="name" name="name" th:value="${stat.name}" required><br>
+        <label for="type">Тип:</label><br>
+        <select id="type" name="type" required>
+            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"
+                    th:selected="${type.id == stat.type.id}"></option>
+        </select>
+        <label for="description">Описание:</label><br>
+        <input type="text" id="description" name="description" th:value="${stat.description}" required><br>
+        <label for="value">Значение:</label><br>
+        <input type="number" id="value" name="value" th:value="${stat.value}" required><br>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+</div>
+</body>
+</html>

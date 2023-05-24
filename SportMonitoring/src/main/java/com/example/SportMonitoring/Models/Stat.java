@@ -17,9 +17,22 @@ public class Stat {
 
     @Column(name = "value", nullable = false)
     private Double value;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "type_id", nullable = false)
+    private StatType type;
+
+
+    public StatType getType() {
+        return type;
+    }
+
+    public void setType(StatType type) {
+        this.type = type;
+    }
 
     public User getUser() {
         return user;
