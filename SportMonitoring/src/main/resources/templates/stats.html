@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <h2>Мои показатели</h2>
-    <ul>
+    <ul class="stats-list">
         <li th:each="stat : ${stats}">
             <span th:text="${stat.name}"></span>
             <span th:text="${#dates.format(stat.assignedDate, 'dd-MM-yyyy')}"></span>:
@@ -17,39 +17,36 @@
     </ul>
 
     <canvas id="myChart"></canvas>
-    <a th:href="@{/profile}">Мой профиль</a>
-    <a th:href="@{/logout}">Выйти</a>
-</div>
-<script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [${statDates}],
 
-            datasets: [{
-                label: 'Мои показатели',
-                data: [${statValues}],
-                backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                borderColor: 'rgba(0, 123, 255, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    distribution: 'linear'
-                }]
-            }
-        }
-    });
-</script>
+    <a class="button" th:href="@{/profile}">Мой профиль</a>
+    <a class="button" th:href="@{/logout}">Выйти</a>
+</div>
+
 
 <footer>
     <div class="footer-content">
         <p>© 2023 Все права защищены.</p>
     </div>
 </footer>
+
+<script th:inline="javascript">
+    const labels = /*[[${statDates}]]*/ [];
+    const data = /*[[${statValues}]]*/ [];
+    const statNames = /*[[${statNames}]]*/ [];
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: statNames[0],
+                data: data,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        }
+    });
+</script>
 </body>
 </html>

@@ -140,3 +140,41 @@ button:hover {
     padding: 20px;
     font-size: 0.9em;
 }
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.stats-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.stats-list li {
+    margin: 10px 0;
+}
+
+.stats-list li span {
+    margin-right: 10px;
+}
+
+.button {
+    display: inline-block;
+    margin: 20px 10px 0;
+    padding: 10px 20px;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+#myChart {
+    width: 100%;
+    height: 300px;
+}
