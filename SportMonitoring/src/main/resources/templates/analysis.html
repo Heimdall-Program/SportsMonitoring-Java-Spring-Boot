@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Аналитика</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Аналитика и Прогнозирование</h2>
+
+    <form th:action="@{/analysis}" method="post">
+        <label for="userSelect">Выберите спортсмена:</label>
+        <select id="userSelect" name="userId" class="form-control">
+            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}"></option>
+        </select>
+
+        <label for="statTypeSelect">Выберите тип парметра:</label>
+        <select id="statTypeSelect" name="statTypeId" class="form-control">
+            <option th:each="statType : ${statTypes}" th:value="${statType.id}" th:text="${statType.name}"></option>
+        </select>
+
+
+        <button type="submit" class="btn btn-primary">Проанализировать</button>
+    </form>
+
+    <div th:if="${stats}">
+        <h3>Статистика по выборанному спортсмену в выбранной категории</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Значение</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="stat : ${stats}">
+                <td th:text="${stat.assignedDate}"></td>
+                <td th:text="${stat.value}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h3>Текущий прогресс</h3>
+        <p th:text="${progressAnalysis}"></p>
+
+        <h3>Предсказание:</h3>
+        <p th:text="${futureProjection}"></p>
+    </div>
+    <hr>
+    <a th:href="@{/users}">Управление пользователями</a>
+    <a th:href="@{/admin_stats}">Просмотр показателей спортсменов</a>
+    <a th:href="@{/view-profile}">Просмотр профиля спортсмена</a>
+    <a th:href="@{/rating}">Рейтинг спортсменов</a>
+    <a th:href="@{/analysis}">Анализ и прогнозирование</a>
+    <a th:href="@{/login}">Выйти</a>
+</div>
+<footer>
+    <div class="footer-content">
+        <p>© 2023 Все права защищены.</p>
+    </div>
+</footer>
+</body>
+</html>
