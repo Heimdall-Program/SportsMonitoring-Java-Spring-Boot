@@ -23,13 +23,14 @@ public class Stat {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "type_id", nullable = false)
     private StatType type;
 
     @Column(name = "assigned_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date assignedDate;
+
 
     @PrePersist
     public void prePersist() {

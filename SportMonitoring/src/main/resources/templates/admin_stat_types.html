@@ -18,8 +18,7 @@
         <tr th:each="type : ${types}">
             <td th:text="${type.name}"></td>
             <td>
-                <a th:href="@{/admin_stat_types/edit(type.id)}">Изменить</a>
-                <a th:href="@{/admin_stat_types/delete(type.id)}">Удалить</a>
+                <a th:href="@{'/admin_stat_types/delete/' + ${type.id}}">Удалить</a>
             </td>
         </tr>
         </tbody>
