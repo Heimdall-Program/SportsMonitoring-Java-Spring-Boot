@@ -34,27 +34,5 @@
         <p>© 2023 Все права защищены.</p>
     </div>
 </footer>
-<script>
-    function getAthleteInfo(id) {
-        if (id === "") {
-            document.querySelector('.profile-info').style.display = 'none';
-        } else {
-
-
-            fetch('/api/user?id=' + id)
-                .then(response => response.json())
-                .then(user => {
-                    document.getElementById('picture').src = user.pictureUrl;
-                    document.getElementById('name').textContent = user.name;
-                    document.getElementById('surname').textContent = user.surname;
-                    document.getElementById('age').textContent = 'Возраст: ' + user.age;
-                    document.getElementById('gender').textContent = 'Пол: ' + user.gender;
-
-                    document.querySelector('.profile-info').style.display = 'block';
-                    document.querySelector('.profile-info').style.display = 'block';
-                });
-        }
-    }
-</script>
 </body>
 </html>

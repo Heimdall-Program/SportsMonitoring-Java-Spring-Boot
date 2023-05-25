@@ -7,53 +7,57 @@
 <body>
 <div class="container">
     <h2>Профиль спортсмена</h2>
-    <div class="profile-picture">
-        <img th:src="@{${user.pictureUrl}}" alt="Картинка"/>
-    </div>
-    <form id="athlete-selection-form">
-        <label for="athlete">Выберите спортсмена:</label><br>
-        <select id="athlete" name="athlete" onchange="getAthleteInfo(this.value)">
-            <option value="">Выберите спортсмена...</option>
-            <option th:each="user : ${users}" th:value="${user.id}"
-                    th:text="${user.name + ' ' + user.surname}"></option>
-        </select>
-    </form>
+    <div class="profile-layout">
+        <div class="profile-content">
+            <form id="athlete-selection-form">
+                <label for="athlete">Выберите спортсмена:</label><br>
+                <select id="athlete" name="athlete" onchange="getAthleteInfo(this.value)">
+                    <option value="">Выберите спортсмена...</option>
+                    <option th:each="user : ${users}" th:value="${user.id}"
+                            th:text="${user.name + ' ' + user.surname}"></option>
+                </select>
+            </form>
+            <div class="profile-info">
+                <div class="profile-picture">
+                    <img id="picture" th:src="@{${user != null ? user.pictureUrl : '#'}}" alt="Картинка"/>
+                </div>
+                <p id="name"></p>
+                <p id="surname"></p>
+                <p id="age"></p>
+                <p id="gender"></p>
+            </div>
 
-    <div class="profile-info">
-        <p id="name"></p>
-        <p id="surname"></p>
-        <p id="age"></p>
-        <p id="gender"></p>
-    </div>
+            <hr>
+            <a th:href="@{/users}">Управление пользователями</a>
+            <a th:href="@{/admin_stats}">Просмотр показателей спортсменов</a>
+            <a th:href="@{/view-profile}">Просмотр профиля спортсмена</a>
+            <a th:href="@{/rating}">Рейтинг спортсменов</a>
+            <a th:href="@{/analysis}">Анализ и прогнозирование</a>
+            <a th:href="@{/login}">Выйти</a>
+        </div>
 
-    <hr>
-    <a th:href="@{/users}">Управление пользователями</a>
-    <a th:href="@{/admin_stats}">Просмотр показателей спортсменов</a>
-    <a th:href="@{/view-profile}">Просмотр профиля спортсмена</a>
-    <a th:href="@{/rating}">Рейтинг спортсменов</a>
-    <a th:href="@{/analysis}">Анализ и прогнозирование</a>
-    <a th:href="@{/login}">Выйти</a>
+
+        <script>
+            function getAthleteInfo(id) {
+                if (id === "") {
+                    document.querySelector('.profile-info').style.display = 'none';
+                } else {
+                    fetch('/api/user?id=' + id)
+                        .then(response => response.json())
+                        .then(user => {
+                            document.getElementById('picture').src = user.pictureUrl;
+                            document.getElementById('name').textContent = user.name;
+                            document.getElementById('surname').textContent = user.surname;
+                            document.getElementById('age').textContent = 'Возраст: ' + user.age;
+                            document.getElementById('gender').textContent = 'Пол: ' + user.gender;
+
+                            document.querySelector('.profile-info').style.display = 'block';
+                        });
+                }
+            }
+        </script>
+    </div>
 </div>
-
-<script>
-    function getAthleteInfo(id) {
-        if (id === "") {
-            document.querySelector('.profile-info').style.display = 'none';
-        } else {
-            fetch('/api/user?id=' + id)
-                .then(response => response.json())
-                .then(user => {
-                    document.getElementById('picture').src = user.pictureUrl;
-                    document.getElementById('name').textContent = user.name;
-                    document.getElementById('surname').textContent = user.surname;
-                    document.getElementById('age').textContent = 'Возраст: ' + user.age;
-                    document.getElementById('gender').textContent = 'Пол: ' + user.gender;
-
-                    document.querySelector('.profile-info').style.display = 'block';
-                });
-        }
-    }
-</script>
 
 </body>
 </html>
