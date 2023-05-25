@@ -8,9 +8,8 @@
 <div class="container">
     <h2>Профиль спортсмена</h2>
     <div class="profile-picture">
-        <img id="picture" alt="Картинка"/>
+        <img th:src="@{${user.pictureUrl}}" alt="Картинка"/>
     </div>
-
     <form id="athlete-selection-form">
         <label for="athlete">Выберите спортсмена:</label><br>
         <select id="athlete" name="athlete" onchange="getAthleteInfo(this.value)">
@@ -32,24 +31,25 @@
     <a th:href="@{/view-profile}">Просмотр профиля спортсмена</a>
     <a th:href="@{/rating}">Рейтинг спортсменов</a>
     <a th:href="@{/analysis}">Анализ и прогнозирование</a>
-    <a th:href="@{/logout}">Выйти</a>
+    <a th:href="@{/login}">Выйти</a>
 </div>
 
 <script>
-    async function getAthleteInfo(id) {
+    function getAthleteInfo(id) {
         if (id === "") {
             document.querySelector('.profile-info').style.display = 'none';
         } else {
-            const response = await fetch('/api/user?id=' + id);
-            const user = await response.json();
+            fetch('/api/user?id=' + id)
+                .then(response => response.json())
+                .then(user => {
+                    document.getElementById('picture').src = user.pictureUrl;
+                    document.getElementById('name').textContent = user.name;
+                    document.getElementById('surname').textContent = user.surname;
+                    document.getElementById('age').textContent = 'Возраст: ' + user.age;
+                    document.getElementById('gender').textContent = 'Пол: ' + user.gender;
 
-            document.getElementById('picture').src = user.pictureUrl;
-            document.getElementById('name').textContent = user.name;
-            document.getElementById('surname').textContent = user.surname;
-            document.getElementById('age').textContent = user.age;
-            document.getElementById('gender').textContent = user.gender;
-
-            document.querySelector('.profile-info').style.display = 'block';
+                    document.querySelector('.profile-info').style.display = 'block';
+                });
         }
     }
 </script>
