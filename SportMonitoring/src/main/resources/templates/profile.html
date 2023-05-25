@@ -8,7 +8,7 @@
 <div class="container">
     <h2>Мой профиль</h2>
     <div class="profile-picture">
-        <img th:src="${user.pictureUrl}" alt="Картинка"/>
+        <img th:src="@{${user.pictureUrl}}" alt="Картинка"/>
     </div>
     <form action="#" th:action="@{/updateProfile}" method="post" enctype="multipart/form-data">
         <label for="picture">Фото:</label>

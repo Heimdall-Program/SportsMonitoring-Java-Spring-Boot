@@ -1,9 +1,6 @@
 package com.example.SportMonitoring.Controllers;
 
-import com.example.SportMonitoring.Models.Stat;
 import com.example.SportMonitoring.Models.User;
-import com.example.SportMonitoring.Repositories.StatRepository;
-import com.example.SportMonitoring.Repositories.StatTypeRepository;
 import com.example.SportMonitoring.Repositories.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class UserController {
@@ -35,6 +31,13 @@ public class UserController {
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
         return "profile";
+    }
+
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/login";
     }
 
     @PostMapping("/updateProfile")
@@ -60,24 +63,20 @@ public class UserController {
 
         userRepository.save(user);
 
+        session.setAttribute("user", user);
+
         redirectAttributes.addFlashAttribute("message", "Профиль успешно обновлен!");
 
         return "redirect:/profile";
     }
 
-    @PostMapping("/logout")
-    public String logout(HttpSession session) {
-        session.removeAttribute("user");
-        return "redirect:/login";
-    }
-
     private String uploadPicture(MultipartFile picture) {
         try {
             if (picture != null && !picture.isEmpty()) {
-                String fileName = StringUtils.cleanPath(picture.getOriginalFilename());
-                Path path = Paths.get("uploads/" + fileName);
+                String fileName = StringUtils.cleanPath(Objects.requireNonNull(picture.getOriginalFilename()));
+                Path path = Paths.get("src/main/resources/static/uploads/" + fileName);
                 Files.copy(picture.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-                return path.toString();
+                return "/uploads/" + fileName;
             }
         } catch (IOException e) {
             System.out.println("Ошибка сохранения картинки: " + e.getMessage());
