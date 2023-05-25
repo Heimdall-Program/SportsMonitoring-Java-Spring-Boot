@@ -1,8 +1,10 @@
 package com.example.SportMonitoring.Controllers;
 
 import com.example.SportMonitoring.Models.Stat;
+import com.example.SportMonitoring.Models.StatType;
 import com.example.SportMonitoring.Models.User;
 import com.example.SportMonitoring.Repositories.StatRepository;
+import com.example.SportMonitoring.Repositories.StatTypeRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +22,37 @@ public class StatController {
     @Autowired
     private StatRepository statRepository;
 
+    @Autowired
+    private StatTypeRepository statTypeRepository;
+
     @GetMapping("/stats")
     public String showStats(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
+        List<StatType> types = statTypeRepository.findAll();
+        model.addAttribute("types", types);
+        model.addAttribute("showGraph", false);
+        return "stats";
+    }
 
-        List<Stat> stats = statRepository.findByUser(user);
+    @GetMapping("/stats/{typeId}")
+    public String showStats(@PathVariable Long typeId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        StatType selectedType = statTypeRepository.findById(typeId).orElse(null);
+        if (selectedType == null) {
+            return "redirect:/stats";
+        }
+
+        List<Stat> stats = statRepository.findByUser(user).stream()
+                .filter(stat -> stat.getType().getId().equals(typeId))
+                .collect(Collectors.toList());
+
         model.addAttribute("stats", stats);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -51,4 +76,5 @@ public class StatController {
 
         return "stats";
     }
+
 }

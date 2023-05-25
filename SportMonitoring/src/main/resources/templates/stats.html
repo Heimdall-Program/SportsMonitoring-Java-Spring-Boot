@@ -7,18 +7,23 @@
 </head>
 <body>
 <div class="container">
+    <h2>Выберите тип показателя:</h2>
+    <ul class="types-list">
+        <li th:each="type : ${types}">
+            <a th:href="@{/stats/{id}(id=${type.id})}" th:text="${type.name}"></a>
+        </li>
+    </ul>
     <h2>Мои показатели</h2>
     <ul class="stats-list">
         <li th:each="stat : ${stats}">
-            <span th:text="${stat.name}"></span>
-            <span th:text="${#dates.format(stat.assignedDate, 'dd-MM-yyyy')}"></span>:
-            <span th:text="${stat.value}"></span>
+            <div class="stat-name" th:text="${stat.name}"></div>
+            <div class="stat-date" th:text="${#dates.format(stat.assignedDate, 'dd-MM-yyyy')}"></div>
+            <div class="stat-value" th:text="${stat.value}"></div>
         </li>
     </ul>
-
-    <canvas id="myChart"></canvas>
-
+    <canvas id="myChart" th:if="${showGraph}"></canvas>
     <a class="button" th:href="@{/profile}">Мой профиль</a>
+    <a class="button" th:href="@{/stats}">Мои показатели</a>
     <a class="button" th:href="@{/login}">Выйти</a>
 </div>
 
@@ -45,6 +50,13 @@
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
             }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
     });
 </script>

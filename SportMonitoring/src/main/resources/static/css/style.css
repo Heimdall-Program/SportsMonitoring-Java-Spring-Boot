@@ -200,3 +200,16 @@ body {
     font-size: 1.2em;
     color: #333;
 }
+
+.stats-list {
+    list-style: none;
+    padding: 0;
+}
+
+.stats-list li {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    background-color: #F0F0F0;
+    padding: 1rem;
+    border-radius: 5px;
+}
