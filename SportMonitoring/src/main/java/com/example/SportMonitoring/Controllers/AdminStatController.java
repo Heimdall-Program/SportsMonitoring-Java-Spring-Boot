@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -109,9 +110,19 @@ public class AdminStatController {
     public String rating(@RequestParam(name = "typeId", required = false) Long typeId, Model model) {
         List<StatType> types = statTypeRepository.findAll();
         model.addAttribute("types", types);
+        model.addAttribute("typeId", typeId);
 
         if (typeId != null) {
             List<Stat> stats = statRepository.findByTypeIdOrderByValueDesc(typeId);
+            List<Double> differences = new ArrayList<>();
+            for (int i = 0; i < stats.size(); i++) {
+                if (i < stats.size() - 1) {
+                    differences.add(stats.get(i).getValue() - stats.get(i + 1).getValue());
+                } else {
+                    differences.add(null);
+                }
+            }
+            model.addAttribute("differences", differences);
             model.addAttribute("stats", stats);
         }
 

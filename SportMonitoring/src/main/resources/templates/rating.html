@@ -8,7 +8,7 @@
 <div class="container">
     <h2>Рейтинг спортсменов по выбранному параметру</h2>
 
-    <form action="/admin/rating" method="get">
+    <form action="/rating" method="get">
         <label for="typeId">Выберите параметр:</label><br>
         <select id="typeId" name="typeId">
             <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
@@ -25,6 +25,7 @@
         <table>
             <thead>
             <tr>
+                <th>№</th>
                 <th>Имя пользователя</th>
                 <th>Значение</th>
                 <th>Разница со следующим</th>
@@ -32,14 +33,15 @@
             </thead>
             <tbody>
             <tr th:each="stat, iterStat : ${stats}">
+                <td th:text="${iterStat.count}"></td>
                 <td th:text="${stat.user.name} + ' ' + ${stat.user.surname}"></td>
                 <td th:text="${stat.value}"></td>
-                <td th:if="${iterStat.hasNext}" th:text="${stat.value - ${stats[iterStat.index + 1].value}}"></td>
-                <td th:unless="${iterStat.hasNext}">-</td>
+                <td th:if="${differences[iterStat.index] != null}" th:text="${differences[iterStat.index]}"></td>
+                <td th:unless="${differences[iterStat.index] != null}">-</td>
             </tr>
             </tbody>
         </table>
-        <form action="/admin/rating/save" method="post">
+        <form action="/rating/save" method="post">
             <input type="hidden" name="typeId" th:value="${typeId}">
             <button type="submit">Сохранить текущий рейтинг</button>
         </form>

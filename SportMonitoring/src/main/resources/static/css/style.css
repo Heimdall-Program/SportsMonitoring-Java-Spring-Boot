@@ -31,7 +31,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     padding: 15px;
     border: 1px solid #ddd;
 }
@@ -60,7 +61,10 @@ label {
     font-weight: bold;
 }
 
-input[type="text"], input[type="password"], input[type="number"], select {
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
