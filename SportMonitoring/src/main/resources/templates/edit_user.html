@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактировать пользователя</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Редактирование пользователя</h2>
+    <form th:action="@{/update/{id}(id=${user.id})}" th:object="${user}" method="post">
+        <div class="form-group">
+            <label for="name">Имя</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name" required="required"/>
+        </div>
+        <div class="form-group">
+            <label for="surname">Фамилия</label>
+            <input type="text" th:field="*{surname}" class="form-control" id="surname" required="required"/>
+        </div>
+        <div class="form-group">
+            <label for="login">Логин</label>
+            <input type="text" th:field="*{login}" class="form-control" id="login" required="required"/>
+        </div>
+        <div class="form-group">
+            <label for="age">Возраст</label>
+            <input type="text" th:field="*{age}" class="form-control" id="age" required="required"/>
+        </div>
+        <div class="form-group">
+            <label for="gender">Пол</label>
+            <input type="text" th:field="*{gender}" class="form-control" id="gender" required="required"/>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <input type="password" th:field="*{password}" class="form-control" id="password" required="required"/>
+        </div>
+        <div class="form-group">
+            <label for="role">Роль</label>
+            <select th:field="*{role}" class="form-control" id="role">
+                <option value="admin">Администратор</option>
+                <option value="user">Пользователь</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+</div>
+</body>
+</html>

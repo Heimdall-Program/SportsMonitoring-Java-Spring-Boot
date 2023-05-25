@@ -28,11 +28,12 @@
             <td th:text="${user.gender}"></td>
             <td th:text="${user.role}"></td>
             <td>
-                <a th:href="@{/edit(user.id)}">Изменить</a>
-                <a th:href="@{/delete(user.id)}">Удалить</a>
+                <a th:href="@{/edit/{id}(id=${user.id})}">Изменить</a>
+                <a th:href="@{/delete/{id}(id=${user.id})}">Удалить</a>
             </td>
         </tr>
         </tbody>
+
     </table>
     <hr>
     <a th:href="@{/users}">Управление пользователями</a>
